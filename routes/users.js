@@ -1,9 +1,29 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express')
+const router = express.Router()
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const users = [
+  {
+    id: 1,
+    name: 'Belen',
+    phones: {
+      home: '800-124-222',
+      mobile: '09340394222'
+    },
+    email: 'belen@gmail.com'
+  },
+  {
+    id: 2,
+    name: 'Barbara',
+    phones: {
+      home: '800-124-111',
+      mobile: '09340394111'
+    },
+    email: 'barbara@gmail.com'
+  }
+]
 
-module.exports = router;
+router.get('/', function (req, res) {
+  res.json(users)
+})
+
+module.exports = router
