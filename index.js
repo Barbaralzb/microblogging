@@ -1,5 +1,4 @@
 const express = require('express')
-const router = express.Router()
 const cors = require('cors')
 const app = express()
 
@@ -56,7 +55,6 @@ app.delete('/api/notes/:id', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
   const note = req.body
-
   if (!note || !note.content) {
     // 400 es el error que suele dar cuando se crea mal un recurso
     return res.status(400).json({
@@ -80,10 +78,10 @@ app.post('/api/notes', (req, res) => {
 
   notes = [...notes, newNote]
 
-  res.status(201), json(newNote)
+  res.status(201).json(newNote)
 })
 
 const PORT = 3001
 app.listen(PORT, () => {
-  console.log('estoy en el' + PORT)
+  console.log('estoy en el ' + PORT)
 })
