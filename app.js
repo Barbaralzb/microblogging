@@ -3,6 +3,8 @@ const express = require('express')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
+const mongoose = require('mongoose')
+require('dotenv').config()
 
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
@@ -37,5 +39,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
-
+mongoose.connect(process.env.DB_URI)
+  .then(() => console.log('mymerndb connection succussful'))
+  .catch((err) => console.log(err))
 module.exports = app

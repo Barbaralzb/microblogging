@@ -1,84 +1,64 @@
 const express = require('express')
+const { send } = require('express/lib/response')
+const mongoose = require('mongoose')
+const User = require('../models/User.js')
+const db = mongoose.connection
 const router = express.Router()
 router.use(express.json())
+console.log(User)
 
-let users = [
-  {
-    id: 1,
-    name: 'Belen',
-    phones: {
-      home: '800-124-222',
-      mobile: '09340394222'
-    },
-    email: 'belen@gmail.com',
-    registered: false
-  },
-  {
-    id: 2,
-    name: 'Barbara',
-    phones: {
-      home: '800-124-111',
-      mobile: '09340394111'
-    },
-    email: 'barbara@gmail.com',
-    registered: true
-  }
-]
-
+// obtener el listado de users
 router.get('/', function (req, res, next) {
-  res.json(users)
-  next()
+  User.find().sort('-creationdate').exec(() => (err, users) => {
+    if (err) res.status(500).send('Hubo un error' + err)
+    else res.status(200).json(users)
+  })
 })
 
-router.get('/:id', (req, res) => {
-  // tengo que acordarme que los endpoints sont string, aunque sea un numero,
-  // es por esto que la validacion tiene que ser con un string
-  if (req.params.id === '1') {
-    res.json(users[1])
-  } else {
-    res.status(404)
-      .send('no se ha encontrado el usuario')
-  }
+// obtener un user
+router.get('/:id', function (req, res, next) {
+  User.findById(req.params.id, function (err, userinfo) {
+    if (err) res.status(500).send(err)
+    else res.status(200).json(userinfo)
+  })
 })
 
-router.post('/', (req, res) => {
-  const user = req.body
-  console.log(user)
-  const ids = users.map(user => user.id)
-  const maxId = Math.max(...ids)
-
-  const newUser = {
-    id: maxId + 1,
-    name: user.name,
-    mail: user.mail
-  }
-
-  users = [...users, newUser]
-
-  res.status(201)
-    .send('Usuario ' + req.body.name + 'ha sido añadido correctamente')
-    .json(newUser)
+// crear un user
+router.post('/', function (req, res, next) {
+  User.create(req.body, function (err, userinfo) {
+    if (err) res.status(500).send(err)
+    else res.sendStatus(200)
+  })
 })
 
-router.put('/:id', (req, res) => {
-  const idUser = Number(req.params.id)
-  const user = users.find(user => user.id === idUser)
-
-  const updateUser = {
-    name: user.name,
-    mail: user.mail
-  }
-  user.findOneAndUpdate(updateUser)
-
-  res.status(302)
-    .send('Usuario ' + req.body.name + ' ha sido encontrado')
-    .json(user.name)
+// actualizar user
+router.put('/:id', function (res, req, next) {
+  User.findByIdAndUpdate(req.params.id, req.body, function (err, userinfo) {
+    if (err) res.status(500).send(err)
+    else res.sendStatus(200)
+  })
 })
 
-router.delete('/:id', (req, res) => {
-  const idUser = Number(req.params.id)
-  users = users.find(user => user.id !== idUser)
-  res.status(204)
-    .send('Usuario ha sido eliminado')
+// eliminando a un user
+router.delete('/:id', function (res, req, next) {
+  User.findByIdAndDelete(req.param.id, function (err, userinfo) {
+    if (err) res.status(500).send(err)
+    else res.sendStatus(200)
+  })
+})
+
+// coneccion de un user
+router.post('/signing', function (res, req, next) {
+  User.findOne({ username: req.body.username }, function (err, user) {
+    if (err) res.send(500).send('el usuario no existe')
+    // si existe
+    if (user != null) {
+      user.comparePassword(req.body.password, function (err, isMatch) {
+        if (err) return next(err)
+        // si el password es correcto
+        if (isMatch) { res.status(200).send({ message: 'ok', role: user.role, id: user._id }) } else { res.status(200).send({ message: 'ko' }) }
+      })
+    } else res.status(401).send({ message: 'ko' })
+  })
 })
 module.exports = router
