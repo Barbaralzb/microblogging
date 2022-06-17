@@ -13,5 +13,5 @@ POST http://localhost:5000/posts
 Content-Type: application/json
 
 {
-    "iduser":"62aa20068e897b161c3b99c8", 
+    "iduser":"62aa28388c63e0799c6eae1b", 
 }

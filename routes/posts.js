@@ -16,15 +16,19 @@ router.get('/', function (req, res, next) {
 })
 
 router.get('/:id', function (req, res, next) {
-  Post.find({ posts: req.params.id }, function (err, postinfo) {
-    if (err) res.status(500).send(500)
-    else res.status(200).json(postinfo)
+  Post.find({ _id: req.params.id }, function (err, postinfo) {
+    if (err) {
+      res.status(404).json({
+        error: 'Not found'
+      })
+    } else res.status(200).json(postinfo)
+    next()
   })
 })
 
 router.get('/all/:id', function (req, res, next) {
   Post.find({ user: req.params.id }).sort('-publicationdate').populate('user').exec(function (err, posts) {
-    if (err) res.status(500).send(500)
+    if (err) res.status(500).json(500)
     else res.status(200).json(posts)
   })
 })
@@ -75,6 +79,14 @@ router.delete('/:id', function (req, res, next) {
         else res.sendStatus(200)
       })
     }
+  })
+})
+
+// controlar error 404
+router.use((req, res) => {
+  console.log(req.path)
+  res.status(404).json({
+    error: 'Error captado por use() Not found'
   })
 })
 
