@@ -1,0 +1,4 @@
+GET http://localhost:5000/posts
+
+###
+GET http://localhost:5000/posts/62aa29e3046beaee5af22fb

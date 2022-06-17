@@ -3,8 +3,7 @@ POST http://localhost:5000/users
 Content-Type: application/json
 
 {
-    "usename": "Javi",
-    "password": "javi",
-    "email": "javi@gmail.com",
-    "creationdate" : ""
+    "username":"hola",
+    "password":"jioajs.4",
+    "email":"hola@gmail.com"
 }

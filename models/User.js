@@ -1,11 +1,10 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const Post = require('../models/Post')
 const bcrypt = require('bcryptjs')
 const SALT_WORK_FACTOR = 10
 const UserSchema = new Schema({
-  usename: { type: String, require: true, index: { unique: true } },
-  password: { type: String, require: true },
+  username: { type: String, required: true, index: { unique: true } },
+  password: { type: String, required: true },
   fullname: String,
   email: { type: String, required: true },
   creationdate: { type: Date, default: Date.now },
@@ -33,4 +32,4 @@ UserSchema.methods.comparePassword = function (candidatePassword, cd) {
   })
 }
 
-module.export = mongoose.model('User', UserSchema)
+module.exports = mongoose.model('User', UserSchema)

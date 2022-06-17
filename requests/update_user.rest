@@ -1,8 +1,0 @@
-//tengo que acordarme del espacio abajo del content-type
-PUT http://localhost:3000/users/1
-Content-Type: application/json
-
-{
-    "name": "Javiera",
-    "email": "javi@gmail.com"
-}
