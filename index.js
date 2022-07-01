@@ -80,8 +80,3 @@ app.post('/api/notes', (req, res) => {
 
   res.status(201).json(newNote)
 })
-
-const PORT = 3001
-app.listen(PORT, () => {
-  console.log('estoy en el ' + PORT)
-})

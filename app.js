@@ -43,7 +43,15 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
-mongoose.connect(process.env.DB_URI)
-  .then(() => console.log('mymerndb connection succussful'))
-  .catch((err) => console.log(err))
+// mongoose.connect(process.env.DB_URI)
+//   .then(() => console.log('mymerndb connection succussful'))
+//   .catch((err) => console.log(err))
+mongoose.connect(process.env.DB_URI_LOCAL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('annuairedb connection succussful!')
+  })
+  .catch((err) => {
+    console.log('OH NO! MONGO CONNECTION ERROR!')
+    console.log(err)
+  })
 module.exports = app

@@ -1,9 +1,10 @@
 //tengo que acordarme del espacio abajo del content-type
-POST http://localhost:5000/users
+POST http://localhost:5000/users/
 Content-Type: application/json
 
 {
-    "username":"hola",
-    "password":"jioajs.4",
-    "email":"hola@gmail.com"
+    "username":"Barbara",
+    "password":"barbara.4",
+    "email":"barbara@gmail.com",
+    "role": "subscriber"
 }
