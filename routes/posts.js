@@ -1,11 +1,14 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const router = express.Router()
+const jwt = require('jsonwebtoken')
 
 // Modelos
 const Post = require('../models/Post')
 const User = require('../models/User')
-const db = mongoose.connection
+
+// middleware
+const userExtractor = require('../middleware/userExtractor')
 
 // GET del listado de posts ordenados por fecha de publicacion
 router.get('/', function (req, res, next) {
@@ -34,8 +37,11 @@ router.get('/all/:id', function (req, res, next) {
 })
 
 // crear un post
-router.post('/', function (req, res, next) {
-  User.findById(req.body.iduser, function (err, userinfo) {
+router.post('/', userExtractor, function (req, res, next) {
+  // aca estoy sacando el iduser decodificado del token gracias al middleware
+  const { iduser } = req
+  // ya teniendo el id recuperado del token puedo pasarlo como parametro
+  User.findById(iduser, function (err, userinfo) {
     if (err) res.status(500).res('hubo un error antes de la instancia' + 500)
     else {
       // crear la instancia Post

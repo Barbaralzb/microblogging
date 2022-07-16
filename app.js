@@ -4,6 +4,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const mongoose = require('mongoose')
+const mongoSanitize = require('express-mongo-sanitize')
+const helmet = require('helmet')
+const xss = require('xss-clean')
 require('dotenv').config()
 
 const indexRouter = require('./routes/index')
@@ -43,6 +46,14 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500)
   res.render('error')
 })
+
+// NoSql injection
+app.use(mongoSanitize())
+// securing the header
+app.use(helmet())
+// XSS atacks
+app.use(xss())
+
 // mongoose.connect(process.env.DB_URI)
 //   .then(() => console.log('mymerndb connection succussful'))
 //   .catch((err) => console.log(err))

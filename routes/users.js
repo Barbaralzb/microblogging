@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken')
 const User = require('../models/User.js')
+const { sendTokenResponse } = require('../controllers/auth.js')
 const db = mongoose.connection
 const router = express.Router()
 router.use(express.json())
@@ -48,15 +50,28 @@ router.delete('/:id', function (req, res, next) {
 })
 
 // coneccion de un user
-router.post('/signing', function (req, res, next) {
-  User.findOne({ username: req.body.username }, function (err, user) {
-    if (err) res.send(500).send('el usuario no existe')
+router.post('/signin', function (req, res, next) {
+  console.log(req)
+  User.findOne({ email: req.body.email }, function (err, user) {
+    if (err) res.status(500).send('Error comprobando el usuario')
     // si existe
     if (user != null) {
       user.comparePassword(req.body.password, function (err, isMatch) {
         if (err) return next(err)
         // si el password es correcto
-        if (isMatch) { res.status(200).send({ message: 'ok', role: user.role, id: user._id }) } else { res.status(200).send({ message: 'ko' }) }
+        if (isMatch) {
+          const userForToken = {
+            id: user._id,
+            username: user.username
+          }
+          const token = jwt.sign(userForToken, process.env.JWT_SECRET)
+
+          res.send({
+            username: user.username,
+            token
+          })
+            .status(200)
+        } else { res.status(200).send({ message: 'ko' }) }
       })
     } else res.status(401).send({ message: 'ko' })
   })

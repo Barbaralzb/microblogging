@@ -1,0 +1,8 @@
+//tengo que acordarme del espacio abajo del content-type
+POST http://localhost:5000/users/signin/
+Content-Type: application/json
+
+{
+    "email":"barbara@gmail.com",
+    "password":"barbara.4"
+}

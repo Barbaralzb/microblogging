@@ -1,8 +1,8 @@
 POST http://localhost:5000/posts
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmVlODZmZjBmZGExYzIzZjc5Y2Y1ZCIsInVzZXJuYW1lIjoiQmFyYmFyYSIsImlhdCI6MTY1Njg2MjgzMX0.cAjq1lbwu7mL6y7xmQ9K1a3WCe1S1UjjqShi5NZ9ePI
 
 {
-    "iduser":"62aa28388c63e0799c6eae1b", 
     "title": "Hola",
     "description": "Me llamo barbara"
 }
