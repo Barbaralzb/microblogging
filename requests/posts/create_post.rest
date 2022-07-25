@@ -1,12 +1,15 @@
 POST http://localhost:5000/posts
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyYmVlODZmZjBmZGExYzIzZjc5Y2Y1ZCIsInVzZXJuYW1lIjoiQmFyYmFyYSIsImlhdCI6MTY1Njg2MjgzMX0.cAjq1lbwu7mL6y7xmQ9K1a3WCe1S1UjjqShi5NZ9ePI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZDQzODZiODc3MDBjOWNmODExZTA3NiIsInVzZXJuYW1lIjoiYmhqZGgiLCJpYXQiOjE2NTg1MDgzMTJ9.zF2riarR0ywOQ8Czp5u4KqJhktAPfkJqb4ivJekn6U0
 
 {
     "title": "Hola",
-    "description": "Me llamo barbara"
+    "adresse": "Me llamo barbara",
+    "eventDate" : {
+        "dateStart": "2002-03-03",
+        "dateEnd": "2002-03-03"
+    }
 }
-
 ###
 // test para saber que pasa si el body esta vacio
 POST http://localhost:5000/posts

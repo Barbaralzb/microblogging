@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken')
 const Post = require('../models/Post')
 const User = require('../models/User')
 
-// middleware
+// middleware - aurth jwt
 const userExtractor = require('../middleware/userExtractor')
 
 // GET del listado de posts ordenados por fecha de publicacion
@@ -40,15 +40,52 @@ router.get('/all/:id', function (req, res, next) {
 router.post('/', userExtractor, function (req, res, next) {
   // aca estoy sacando el iduser decodificado del token gracias al middleware
   const { iduser } = req
+  // desustructuracion de req.body
+  const {
+    title,
+    dateStart,
+    dateEnd,
+    fullDay,
+    timeStart,
+    timeEnd,
+    address,
+    city,
+    postalCode,
+    ageRange,
+    domain,
+    email,
+    website,
+    isActive,
+    images,
+    createdAt
+  } = req.body
   // ya teniendo el id recuperado del token puedo pasarlo como parametro
   User.findById(iduser, function (err, userinfo) {
     if (err) res.status(500).res('hubo un error antes de la instancia' + 500)
     else {
       // crear la instancia Post
       const postInstance = new Post({
-        user: req.body.iduser,
-        title: req.body.title,
-        description: req.body.description
+        user: req.iduser,
+        title,
+        eventDate: {
+          dateStart,
+          dateEnd
+        },
+        eventTime: {
+          fullDay,
+          timeStart,
+          timeEnd
+        },
+        address,
+        city,
+        postalCode,
+        ageRange,
+        domain,
+        email,
+        website,
+        isActive,
+        images,
+        createdAt
       })
       // añadir postInstance al array de posts del usuario
       userinfo.posts.push(postInstance)
@@ -57,8 +94,13 @@ router.post('/', userExtractor, function (req, res, next) {
         if (err) res.status(500).send('hubo un error guardar el post' + err)
         else {
           postInstance.save(function (err) {
-            if (err) res.status(500).send(err)
-            res.sendStatus(200)
+            if (err) {
+              res.status(500).send(err)
+            } else {
+              res
+                .status(200)
+                .send(userinfo)
+            }
           })
         }
       })

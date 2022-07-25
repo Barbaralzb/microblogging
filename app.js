@@ -1,5 +1,6 @@
 const createError = require('http-errors')
 const express = require('express')
+const cors = require('cors')
 const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
@@ -14,6 +15,12 @@ const usersRouter = require('./routes/users')
 const postsRouter = require('./routes/posts')
 
 const app = express()
+// esto es un midleware :
+// es una funcion que intercepta (detiene)
+// la peticion que esta pasando por mi API
+// use : sig que cualquier peticion pasara por aca
+app.use(express.json())
+app.use(cors())
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

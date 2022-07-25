@@ -2,7 +2,6 @@ const express = require('express')
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const User = require('../models/User.js')
-const { sendTokenResponse } = require('../controllers/auth.js')
 const db = mongoose.connection
 const router = express.Router()
 router.use(express.json())
@@ -29,7 +28,13 @@ router.post('/', function (req, res, next) {
     if (err) {
       res.status(500).send(err)
       console.log('hubo un error al crear new user')
-    } else res.sendStatus(200)
+    } else {
+      res
+        .status(200)
+        .send({
+          success: true
+        })
+    }
   })
 })
 
@@ -67,7 +72,9 @@ router.post('/signin', function (req, res, next) {
           const token = jwt.sign(userForToken, process.env.JWT_SECRET)
 
           res.send({
+            success: true,
             username: user.username,
+            email: user.email,
             token
           })
             .status(200)

@@ -3,8 +3,8 @@ POST http://localhost:5000/users/
 Content-Type: application/json
 
 {
-    "username":"Ana",
+    "username":"Ahhjkhka",
     "password":"ana.4",
-    "email":"@gmail.com",
+    "email":"barbara@gmail.com,
     "role": "subscriber"
 }
