@@ -4,17 +4,21 @@ const User = require('../models/User.js')
 const PostSchema = new Schema({
   user: {
     type: Schema.ObjectId,
-    required: [true, 'user required'],
+    // required: [true, 'user required'],
     ref: 'User'
   },
   title: {
-    type: String,
-    required: [true, 'user required']
+    type: String
+    // required: [true, 'user required']
+  },
+  description: {
+    type: String
+    // required: [true, 'user required']
   },
   eventDate: {
     dateStart: {
-      type: Date,
-      required: [true, 'Start day required']
+      type: Date
+      // required: [true, 'Start day required']
     },
     dateEnd: {
       type: Date
@@ -27,31 +31,42 @@ const PostSchema = new Schema({
   },
   adresse: String,
   city: {
-    type: String,
-    required: [true, 'City required']
+    type: String
+    // required: [true, 'City required']
   },
   postalCode: {
     type: Number,
     min: 10000,
-    max: 99999,
-    required: [true, 'Code postal required']
+    max: 99999
+    // required: [true, 'Code postal required']
   },
   ageRange: {
-    type: String,
-    required: [true, 'Age range required']
+    type: Array
+    // required: [true, 'Age range required']
   },
   domain: {
-    type: String,
-    required: [true, 'Domain required']
+    type: Array
+    // required: [true, 'Domain required']
   },
   email: String,
   website: String,
+  socialNetworks: {
+    facebook: String,
+    instagram: String,
+    twiter: String
+  },
   isActive: {
     type: Boolean,
-    default: false,
-    required: [true, 'Event state required']
+    default: false
+    // required: [true, 'Event state required']
   },
-  images: Array,
+  images: [
+    {
+      url: String,
+      name: String,
+      _id: String
+    }
+  ],
   createdAt: { type: Date, default: Date.now }
 })
 module.exports = mongoose.model('Post', PostSchema)

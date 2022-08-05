@@ -1,0 +1,1 @@
+DELETE http://localhost:5000/uploadS3/62ec3f897cfb05912073a6c0
