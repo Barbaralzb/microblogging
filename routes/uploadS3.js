@@ -67,14 +67,17 @@ router.post('/', uploadMulter.array('images', 6), async (req, res) => {
     })
   ).then(async imagesUploaded => {
     console.log('data : ', imagesUploaded)
-    imagesUploaded.map(imagePost => (
-      ResponseData.push({ url: imagePost.Location, key: imagePost.Key })
+    imagesUploaded.map(image => (
+      ResponseData.push({ url: image.Location, key: image.Key })
     ))
   })
     .catch(error => {
       console.log(error.message)
     })
-  return ResponseData
+  return (
+    res.send(ResponseData),
+    console.log(ResponseData)
+  )
 }
 )
 

@@ -4,67 +4,60 @@ const User = require('../models/User.js')
 const PostSchema = new Schema({
   user: {
     type: Schema.ObjectId,
-    // required: [true, 'user required'],
+    required: [true, 'user required'],
     ref: 'User'
   },
   title: {
-    type: String
-    // required: [true, 'user required']
+    type: String,
+    required: [true, 'title of event required']
   },
   description: {
-    type: String
-    // required: [true, 'user required']
+    type: String,
+    required: [true, 'description of event required']
   },
-  eventDate: {
-    dateStart: {
-      type: Date
-      // required: [true, 'Start day required']
-    },
-    dateEnd: {
-      type: Date
-    }
+  dateStart: {
+    type: String,
+    required: [true, 'Start day required']
   },
-  eventTime: {
-    fullDay: Boolean,
-    timeStart: Date,
-    timeEnd: Date
+  dateEnd: String,
+  fullDay: {
+    type: Boolean,
+    default: false
   },
-  adresse: String,
+  timeStart: String,
+  timeEnd: String,
+  address: String,
   city: {
-    type: String
-    // required: [true, 'City required']
+    type: String,
+    required: [true, 'City required']
   },
   postalCode: {
     type: Number,
     min: 10000,
-    max: 99999
-    // required: [true, 'Code postal required']
+    max: 99999,
+    required: [true, 'Code postal required']
   },
   ageRange: {
-    type: Array
-    // required: [true, 'Age range required']
+    type: Array,
+    required: [true, 'Age range required']
   },
   domain: {
-    type: Array
-    // required: [true, 'Domain required']
+    color: String,
+    label: String,
+    id: Number
   },
   email: String,
   website: String,
-  socialNetworks: {
-    facebook: String,
-    instagram: String,
-    twiter: String
-  },
+  facebook: String,
+  instagram: String,
   isActive: {
     type: Boolean,
     default: false
-    // required: [true, 'Event state required']
   },
   images: [
     {
       url: String,
-      name: String,
-      _id: String
+      key: String
     }
   ],
   createdAt: { type: Date, default: Date.now }

@@ -3,6 +3,6 @@ POST http://localhost:5000/users/signin/
 Content-Type: application/json
 
 {
-    "email":"barbara@gmail.com",
-    "password":"barbara.4"
+    "email":"test1@test.com",
+    "password":"test"
 }

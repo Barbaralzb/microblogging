@@ -3,13 +3,45 @@ const Schema = mongoose.Schema
 const bcrypt = require('bcryptjs')
 const SALT_WORK_FACTOR = 10
 const UserSchema = new Schema({
-  username: { type: String, required: [true, 'Ingrese Nombre'], index: { unique: true } },
-  password: { type: String, required: [true, 'Ingrese una constraseña valida'] },
-  email: { type: String, required: [true, 'Ingrese email'] },
-  creationdate: { type: Date, default: Date.now },
-  role: { type: String, enum: ['admin', 'subscriber'], default: 'subscriber' },
-  posts: [{ type: Schema.ObjectId, ref: 'Post', default: null }],
-  photoProfilUrl: String
+  username: {
+    type: String, required: [true, 'Nom de l`association required to create profile'], index: { unique: true }
+  },
+  password: {
+    type: String,
+    required: [true, 'Ingrese una constraseña valida']
+    // select: false
+  },
+  email: {
+    type: String, required: [true, 'Ingrese email']
+  },
+  creationdate: {
+    type: Date, default: Date.now
+  },
+  description: String,
+  domain: {
+    color: String,
+    label: String,
+    id: Number
+  },
+  facebook: String,
+  instagram: String,
+  twitter: String,
+  website: String,
+  images: {
+    url: String,
+    key: String
+  },
+  posts: [
+    { type: Schema.ObjectId, ref: 'Post', default: null }
+  ],
+  address: String,
+  city: String,
+  postalCode: {
+    type: Number,
+    min: 10000,
+    max: 99999
+    // required: [true, 'Code postal required']
+  }
 })
 
 UserSchema.pre('save', function (next) {
