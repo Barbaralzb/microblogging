@@ -17,7 +17,7 @@ router.get('/', getAllPosts)
 router.get('/:id', getPost)
 router.get('/all/:id', getAllPostsUser)
 router.post('/', userExtractor, uploadMulter.array('imageEvent', 4), createPost)
-router.put('/:id', updatePost)
+router.put('/:id', userExtractor, uploadMulter.array('imageEvent', 4), updatePost)
 router.delete('/:id', userExtractor, deletePost)
 
 // controlar error 404

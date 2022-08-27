@@ -118,21 +118,82 @@ exports.createPost = asyncHandler(async (req, res, next) => {
   }
 })
 
+// exports.updatePost = asyncHandler(async (req, res, next) => {
+//   Post.findByIdAndUpdate(req.params.id, req.body, function (err, postinfo) {
+//     if (err) {
+//       res.status(500).send({
+//         success: false,
+//         err: 'se produjo un error al update post' + err
+//       })
+//     } else {
+//       res
+//         .status(200)
+//         .send({
+//           success: true
+//         })
+//     }
+//   })
+// })
+
 exports.updatePost = asyncHandler(async (req, res, next) => {
-  Post.findByIdAndUpdate(req.params.id, req.body, function (err, postinfo) {
-    if (err) {
-      res.status(500).send({
-        success: false,
-        err: 'se produjo un error al update post' + err
-      })
-    } else {
+  try {
+    const {
+      title,
+      description,
+      dateStart,
+      dateEnd,
+      timeStart,
+      timeEnd,
+      address,
+      city,
+      postalCode,
+      ageRange,
+      domain,
+      email,
+      website,
+      facebook,
+      instagram,
+      twitter
+    } = req.body
+    console.log('req : ', req)
+    const image = req.files
+    console.log('body : ', req.body)
+    console.log('req files : ', req.files)
+    const imageResponse = await __uploadImage(image)
+    console.log('images uploaded to s3 : ', imageResponse)
+    await Post.findByIdAndUpdate(req.params.id, {
+      title,
+      description,
+      dateStart,
+      dateEnd,
+      timeStart,
+      timeEnd,
+      address,
+      city,
+      postalCode,
+      ageRange,
+      domain,
+      email,
+      website,
+      facebook,
+      instagram,
+      twitter,
+      image: imageResponse ? imageResponse[0] : null
+    }, { new: true }).then(userUpdated => {
       res
         .status(200)
         .send({
-          success: true
+          success: true,
+          data: userUpdated
         })
-    }
-  })
+    }).catch(error => {
+      console.log(error)
+      return res.status(505).send('hubo un error guardar el user' + error.message)
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(404).send(error.message)
+  }
 })
 
 exports.deletePost = asyncHandler(async (req, res, next) => {

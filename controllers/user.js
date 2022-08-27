@@ -24,7 +24,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
   User.create(req.body, function (err, userinfo) {
     if (err) {
       res.status(500).send(err)
-      console.log('hubo un error al crear new user')
+      console.log('hubo un error al crear new user', err)
     } else {
       res
         .status(200)
