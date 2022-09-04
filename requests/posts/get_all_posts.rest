@@ -2,4 +2,4 @@ GET http://localhost:5000/posts
 
 ###
 // aqui obtengo todos los post de un usuario con su id en el req.params
-GET http://localhost:5000/posts/all/62d4386b87700c9cf811e076
+GET http://localhost:5000/posts/all/6304f5ef8304c38803c42b82
